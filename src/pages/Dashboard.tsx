@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -7,6 +6,7 @@ import { Calendar, Clock, FileText, Plus } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { getLeaveStatistics } from '@/services/leaveService';
 import type { LeaveStatistics } from '@/services/leaveService';
+import { TeamCalendar } from '@/components/TeamCalendar';
 
 const Dashboard = () => {
   const { user } = useAuth();
@@ -119,7 +119,6 @@ const Dashboard = () => {
         </Card>
       </div>
 
-      {/* Quick Actions */}
       <div className="grid gap-4 md:grid-cols-2">
         <Card>
           <CardHeader>
@@ -143,42 +142,7 @@ const Dashboard = () => {
           </CardContent>
         </Card>
 
-        <Card>
-          <CardHeader>
-            <CardTitle>Leave Balance</CardTitle>
-          </CardHeader>
-          <CardContent>
-            {isLoading ? (
-              <div className="space-y-2">
-                <div className="h-2 w-full animate-pulse rounded bg-muted"></div>
-                <div className="h-2 w-3/4 animate-pulse rounded bg-muted"></div>
-                <div className="h-2 w-1/2 animate-pulse rounded bg-muted"></div>
-              </div>
-            ) : (
-              <>
-                <div className="mb-2 flex items-center justify-between">
-                  <span className="text-sm font-medium">Annual Leave</span>
-                  <span>
-                    <span className="font-medium text-primary">
-                      {stats?.availableDays || 0}
-                    </span>{" "}
-                    / {stats?.totalDays || 0} days
-                  </span>
-                </div>
-                <div className="h-2 w-full rounded-full bg-muted">
-                  <div 
-                    className="h-2 rounded-full bg-primary" 
-                    style={{ 
-                      width: `${stats ? 
-                        ((stats.totalDays - stats.availableDays) / stats.totalDays) * 100 : 0
-                      }%` 
-                    }}
-                  ></div>
-                </div>
-              </>
-            )}
-          </CardContent>
-        </Card>
+        <TeamCalendar />
       </div>
     </div>
   );
